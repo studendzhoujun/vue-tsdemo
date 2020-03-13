@@ -1,18 +1,20 @@
 <template>
-  <div class="hello">
-    <h1 @click="goAbout">{{ msg }}</h1>
+  <div class="todo">
+   <ul>
+        <li @click="sendItem(item)" v-for="(item,index) in sourceData">{{item}}</li>
+   </ul>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator';
 
 @Component
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
-  private goAbout(): void {
-    console.log('gogo');
-    this.$router.push({path: '/about'});
+  @Prop() private sourceData!: any[];
+  @Emit() private sendItem(item:string):string{
+      return item
   }
 }
 </script>
@@ -27,7 +29,7 @@ ul {
   padding: 0;
 }
 li {
-  display: inline-block;
+  display: block;
   margin: 0 10px;
 }
 a {

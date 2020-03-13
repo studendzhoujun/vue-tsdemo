@@ -1,18 +1,48 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HelloWorld :msg="msg"/>
+    <todo-list :sourceData="datas" @send-item="getItem"></todo-list>
+    <input v-model="inputValue"></input>
+    <button @click="addItem">add</button>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-  name: 'Home',
+import { Component, Vue } from 'vue-property-decorator';
+import HelloWorld from '@/components/HelloWorld.vue';
+import todoList from '@/components/todoList.vue';
+@Component({
   components: {
-    HelloWorld
+    HelloWorld,
+    todoList,
+  },
+})
+export default class App extends Vue {
+  private msg: string = 'this is a home page';
+  private datas: any[] = ['a', 'b', 'c'];
+  private inputValue: string = '';
+  private getItem(item:string){
+      console.log('getItem',item)
+  }
+  private addItem(){
+    console.log(this.inputValue);
+    if(this.inputValue){
+      this.datas.push(this.inputValue);
+      this.inputValue = '';
+    }
   }
 }
 </script>
+<style lang="scss">
+input{
+  width:100%;
+  height:20px;
+  border: 1px solid #909;
+}
+button{
+  width:30px;
+  height:50px;
+  border:1px solid #909;
+}
+</style>
